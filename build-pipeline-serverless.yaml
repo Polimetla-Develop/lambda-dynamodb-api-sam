@@ -40,7 +40,7 @@ Resources:
                 Repo: !Ref RepositoryName
                 Branch: !Ref RepositoryBranch
                 # CloudFormation as of now does not support ssm-secure
-                OAuthToken: "{{resolve:ssm:/github/polimetla_access_token:1}}"
+                OAuthToken: "{{resolve:ssm:/github/AuthToken:1}}"
               OutputArtifacts:
               - Name: SourceOutput
         - Name: Build
