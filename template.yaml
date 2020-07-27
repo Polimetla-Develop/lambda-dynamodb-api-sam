@@ -30,6 +30,15 @@ Parameters:
 
 Resources:
 
+  BasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    DependsOn: DeviceServiceApiStage
+    Properties:
+      BasePath: device
+      DomainName: !ImportValue ApiGateway-DomainName
+      RestApiId: !Ref DeviceServieApi
+      Stage: !Ref StageName
+
   DeviceServiceApi:
     Type: AWS::Serverless::Api
     Properties:
