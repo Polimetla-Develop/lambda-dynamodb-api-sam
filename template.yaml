@@ -116,3 +116,8 @@ Resources:
         WriteCapacityUnits: !Ref WriteCapacity
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
+
+Outputs:
+  ApiEndPoint:
+    Description: The end point to reach the API
+    Value: !Join [ '/', !ImportValue ApiGateway-DomainName, '/device' ]
