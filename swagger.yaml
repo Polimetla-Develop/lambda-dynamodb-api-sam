@@ -5,7 +5,7 @@ info:
   description: Welcome to API documentation of Device Service by GitHub/S-Polimetla
   
 # host: api-dev.polimetla.de
-basePath: /device
+# basePath: /device
 schemes:
   - https
 securityDefinitions:
@@ -136,12 +136,12 @@ paths:
         type: "aws_proxy"
   
     put:
-      summary: Register or update a device      
+      summary: Update a device      
       parameters:
         - name: deviceId
           in: path
           description: The id of the device
-          required: false
+          required: true
           type: string
           maxLength: 36
           minLength: 36
