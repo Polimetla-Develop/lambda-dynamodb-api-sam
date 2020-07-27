@@ -120,4 +120,8 @@ Resources:
 Outputs:
   ApiEndPoint:
     Description: The end point to reach the API
-    Value: !Join [ /, [ !ImportValue ApiGateway-DomainName, /device ] ]
+    Value: !Sub [ https://${DomainName}/device, DomainName: !ImportValue ApiGateway-DomainName ]
+    # Value: !Sub
+    #   - https://${DomainName}/device
+    #   - DomainName: !ImportValue ApiGateway-DomainName
+    # Value: !Join [ '', [ https://, !ImportValue ApiGateway-DomainName, /device ] ]
