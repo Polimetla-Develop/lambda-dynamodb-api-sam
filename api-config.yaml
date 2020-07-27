@@ -18,6 +18,12 @@ Parameters:
     Description: Name of the Usage Plan
     Default: Basic
     
+  Environment:
+    Type: String
+    Description: The environment for the deployment
+    Default: dev
+    AllowedValues: [ dev, uat, prod ]
+
   QuotaLimit:
     Type: Number
     Description: The requests Quota Limit
@@ -100,7 +106,7 @@ Resources:
   ApiDomainName:
     Type: AWS::ApiGateway::DomainName
     Properties: 
-      DomainName: !Sub api-dev.${HostedZoneName}
+      DomainName: !Sub api-${Environment}.${HostedZoneName}
       EndpointConfiguration:
         Types:
           - REGIONAL

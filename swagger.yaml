@@ -20,7 +20,7 @@ x-amazon-apigateway-request-validators:
 x-amazon-apigateway-request-validator: RequestValidator
     
 paths:
-  /device:
+  /:
     get:
       summary: Get List of DeviceIds
       parameters:
@@ -94,7 +94,7 @@ paths:
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws_proxy"
 
-  /device/{deviceId}:
+  /{deviceId}:
     get:
       summary: Get device Info      
       parameters:
