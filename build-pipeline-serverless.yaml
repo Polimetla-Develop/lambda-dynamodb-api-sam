@@ -5,13 +5,15 @@ Parameters:
   ProjectName:
     Type: String
     Description: The name of the project. Example. device-service
+    Default: device-service
   RepositoryOwner:
     Type: String
     Description: The owner of the GitHub repository.
-    Default: S-Polimetla
+    Default: Polimetla-Develop
   RepositoryName:
     Type: String
     Description: The name of the GitHub repository.
+    Default: lambda-dynamodb-api-sam
   RepositoryBranch:
     Type: String
     Description: The name of the branch.
@@ -19,6 +21,7 @@ Parameters:
   ServiceTag:
     Type: String
     Description: The tag for the resources.
+    Default: device-service
 
 Resources:
 
@@ -105,7 +108,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:2.0
+        Image: aws/codebuild/standard:4.0
         EnvironmentVariables:
           - Name: S3_BUCKET
             Value: !Ref ArtifactsBucket
