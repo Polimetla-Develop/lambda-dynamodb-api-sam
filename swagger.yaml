@@ -4,7 +4,7 @@ info:
   title: device-service
   description: Welcome to API documentation of Device Service by GitHub/S-Polimetla
   
-host: api-dev.polimetla.de
+# host: api-dev.polimetla.de
 basePath: /device
 schemes:
   - https
