@@ -4,8 +4,10 @@ info:
   title: device-service
   description: Welcome to API documentation of Device Service by GitHub/S-Polimetla
   
-host: api.polimetla.de # Only relevant for API documentation
-basePath: /device # Only relevant for API documentation. 
+ # Only relevant for API documentation
+host: api.polimetla.de
+basePath: /device
+# The actual mapping is done in BasePathMapping section of template.yaml
 
 schemes:
   - https
