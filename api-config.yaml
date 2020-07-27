@@ -1,0 +1,132 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Template for creating API Gateway configuration
+
+Parameters:
+
+  HostedZoneName:
+    Type: String
+    Description: The Domain name of the API
+    Default: polimetla.de # Do not include a trailing period here
+
+  CertificateId:
+    Type: String
+    Description: The ID of the SSL Certificate
+    Default: bc5d0691-d3b6-4796-9c24-afa6724d3bd3
+
+  UsagePlanName:
+    Type: String
+    Description: Name of the Usage Plan
+    Default: Basic
+    
+  QuotaLimit:
+    Type: Number
+    Description: The requests Quota Limit
+    Default: 1000
+  
+  QuotaPeriod:
+    Type: String
+    Description: The Quota Period type (e.g. DAY,WEEK,MONTH)
+    Default: MONTH
+    
+  ThrottleBurstLimit:
+    Type: Number
+    Description: The requests Burst Limit
+    Default: 200
+  
+  ThrottleRateLimit:
+    Type: Number
+    Description: The requests per second Rate Limit
+    Default: 100
+
+Resources:
+
+  # EmployeeApi:
+  #   Type: AWS::ApiGateway::RestApi
+  #   DependsOn: Service # Having API creation wait until the ECS service is up
+  #   Properties:
+  #     BodyS3Location:
+  #       Bucket: !Ref S3Bucket
+  #       Key: swagger.yaml
+  #     EndpointConfiguration:
+  #       Types:
+  #         - REGIONAL
+
+  # EmployeeApiDeployment:
+  #   Type: AWS::ApiGateway::Deployment
+  #   Properties:      
+  #     RestApiId: !Ref EmployeeApi
+
+  # EmployeeApiStage:
+  #   Type: AWS::ApiGateway::Stage
+  #   Properties:
+  #     DeploymentId: !Ref EmployeeApiDeployment
+  #     RestApiId: !Ref EmployeeApi
+  #     StageName: !Ref Stage
+  #     Variables:
+  #       employeeELB:
+  #         Fn::ImportValue:
+  #           !Sub ${NetworkStackName}-ELB
+
+  ApiUsagePlan:
+    Type: AWS::ApiGateway::UsagePlan
+    Properties: 
+      Quota:
+        Limit: !Ref QuotaLimit
+        Period: !Ref QuotaPeriod
+      Throttle:
+        BurstLimit: !Ref ThrottleBurstLimit
+        RateLimit: !Ref ThrottleRateLimit        
+      # ApiStages: 
+      #   - ApiId: !Ref EmployeeApi
+      #     Stage: !Ref EmployeeApiStage      
+      UsagePlanName: !Ref UsagePlanName
+    
+  ApiKey:
+    Type: AWS::ApiGateway::ApiKey
+    Properties:
+      Name: api-key
+      Enabled: true
+      # StageKeys:
+      #   - RestApiId: !Ref EmployeeApi
+      #     StageName: !Ref EmployeeApiStage
+
+  ApiKeyAssociation: # Associates a API key with a usage plan
+    Type: AWS::ApiGateway::UsagePlanKey
+    Properties: 
+      KeyId: !Ref ApiKey
+      KeyType: API_KEY
+      UsagePlanId: !Ref ApiUsagePlan
+
+  ApiDomainName:
+    Type: AWS::ApiGateway::DomainName
+    Properties: 
+      DomainName: !Sub api-dev.${HostedZoneName}
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      SecurityPolicy: TLS_1_2   
+      RegionalCertificateArn: !Sub arn:aws:acm:${AWS::Region}:${AWS::AccountId}:certificate/${CertificateId}
+
+  # ApiMapping:
+  #   Type: AWS::ApiGateway::BasePathMapping
+  #   Properties:
+  #     DomainName: !Ref ApiDomainName
+  #     RestApiId: !Ref EmployeeApi
+  #     Stage: !Ref EmployeeApiStage
+
+  ApiRecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: !Sub ${HostedZoneName}.
+      Name: !Ref ApiDomainName
+      ResourceRecords:
+        - !GetAtt ApiDomainName.RegionalDomainName
+      TTL: 60
+      Type: CNAME
+
+Outputs:
+  DomainName:
+    Description: The Domain name
+    Value: !Ref ApiDomainName
+    Export:
+      Name: ApiGateway-DomainName
