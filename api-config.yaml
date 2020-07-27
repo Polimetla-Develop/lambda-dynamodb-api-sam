@@ -11,12 +11,13 @@ Parameters:
   CertificateId:
     Type: String
     Description: The ID of the SSL Certificate
-    Default: bc5d0691-d3b6-4796-9c24-afa6724d3bd3
+    Default: bc5d0691-d3b6-4796-9c24-afa6724d3bd3 # Same for all environments. *.DomainName
 
   UsagePlanName:
     Type: String
     Description: Name of the Usage Plan
-    Default: Basic
+    Default: DevUsagePlan
+    AllowedValues: [ DevUsagePlan, UATUsagePlan, ProdUsagePlan ]
     
   Environment:
     Type: String
@@ -46,33 +47,6 @@ Parameters:
 
 Resources:
 
-  # EmployeeApi:
-  #   Type: AWS::ApiGateway::RestApi
-  #   DependsOn: Service # Having API creation wait until the ECS service is up
-  #   Properties:
-  #     BodyS3Location:
-  #       Bucket: !Ref S3Bucket
-  #       Key: swagger.yaml
-  #     EndpointConfiguration:
-  #       Types:
-  #         - REGIONAL
-
-  # EmployeeApiDeployment:
-  #   Type: AWS::ApiGateway::Deployment
-  #   Properties:      
-  #     RestApiId: !Ref EmployeeApi
-
-  # EmployeeApiStage:
-  #   Type: AWS::ApiGateway::Stage
-  #   Properties:
-  #     DeploymentId: !Ref EmployeeApiDeployment
-  #     RestApiId: !Ref EmployeeApi
-  #     StageName: !Ref Stage
-  #     Variables:
-  #       employeeELB:
-  #         Fn::ImportValue:
-  #           !Sub ${NetworkStackName}-ELB
-
   ApiUsagePlan:
     Type: AWS::ApiGateway::UsagePlan
     Properties: 
@@ -81,10 +55,7 @@ Resources:
         Period: !Ref QuotaPeriod
       Throttle:
         BurstLimit: !Ref ThrottleBurstLimit
-        RateLimit: !Ref ThrottleRateLimit        
-      # ApiStages: 
-      #   - ApiId: !Ref EmployeeApi
-      #     Stage: !Ref EmployeeApiStage      
+        RateLimit: !Ref ThrottleRateLimit    
       UsagePlanName: !Ref UsagePlanName
     
   ApiKey:
@@ -92,9 +63,6 @@ Resources:
     Properties:
       Name: api-key
       Enabled: true
-      # StageKeys:
-      #   - RestApiId: !Ref EmployeeApi
-      #     StageName: !Ref EmployeeApiStage
 
   ApiKeyAssociation: # Associates a API key with a usage plan
     Type: AWS::ApiGateway::UsagePlanKey
@@ -113,17 +81,10 @@ Resources:
       SecurityPolicy: TLS_1_2   
       RegionalCertificateArn: !Sub arn:aws:acm:${AWS::Region}:${AWS::AccountId}:certificate/${CertificateId}
 
-  # ApiMapping:
-  #   Type: AWS::ApiGateway::BasePathMapping
-  #   Properties:
-  #     DomainName: !Ref ApiDomainName
-  #     RestApiId: !Ref EmployeeApi
-  #     Stage: !Ref EmployeeApiStage
-
   ApiRecordSet:
     Type: AWS::Route53::RecordSet
     Properties:
-      HostedZoneName: !Sub ${HostedZoneName}.
+      HostedZoneName: !Sub ${HostedZoneName}. # Trailing period is necessary
       Name: !Ref ApiDomainName
       ResourceRecords:
         - !GetAtt ApiDomainName.RegionalDomainName
