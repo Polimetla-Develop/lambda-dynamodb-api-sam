@@ -36,8 +36,8 @@ Resources:
     Properties:
       BasePath: device
       DomainName: !ImportValue ApiGateway-DomainName
-      RestApiId: !Ref DeviceServieApi
-      Stage: !Ref StageName
+      RestApiId: !Ref DeviceServiceApi
+      Stage: !Ref Stage
 
   DeviceServiceApi:
     Type: AWS::Serverless::Api
