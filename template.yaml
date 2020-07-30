@@ -32,7 +32,7 @@ Resources:
 
   BasePathMapping:
     Type: AWS::ApiGateway::BasePathMapping
-    DependsOn: DeviceServiceApiStage
+    DependsOn: DeviceApiStage
     Properties:
       BasePath: device
       DomainName: !ImportValue ApiGateway-DomainName
