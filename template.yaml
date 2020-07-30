@@ -45,9 +45,9 @@ Resources:
       BodyS3Location:
         Bucket: !Ref S3BucketName
         Key: swagger.yaml
-      EndPointConfiguration:
-        Types:
-          - REGIONAL
+      # EndPointConfiguration:
+      #   Types:
+      #     - REGIONAL
 
   DeviceApiDeployment:
     Type: AWS::ApiGateway::Deployment
