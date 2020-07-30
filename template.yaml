@@ -40,14 +40,36 @@ Resources:
       Stage: !Ref Stage
 
   DeviceServiceApi:
-    Type: AWS::Serverless::Api
+    Type: AWS::ApiGateway::RestApi
     Properties:
-      StageName: !Ref Stage      
-      DefinitionBody:
-          'Fn::Transform':
-            Name: 'AWS::Include'
-            Parameters:
-              Location: !Sub ${S3BucketName}/swagger.yaml 
+      BodyS3Location:
+        Bucket: !Ref S3BucketName
+        Key: swagger.yaml
+      EndPointConfiguration:
+        Types:
+          - REGIONAL
+
+  DeviceApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId: !Ref DeviceServiceApi
+
+  DeviceApiStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId: !Ref DeviceApiDeployment
+      RestApiId: !Ref DeviceServiceApi
+      StageName: !Ref Stage
+
+  # DeviceServiceApi:
+  #   Type: AWS::Serverless::Api
+  #   Properties:
+  #     StageName: !Ref Stage      
+  #     DefinitionBody:
+  #         'Fn::Transform':
+  #           Name: 'AWS::Include'
+  #           Parameters:
+  #             Location: !Sub ${S3BucketName}/swagger.yaml
               
   GetDeviceListFunction:
     Type: AWS::Serverless::Function    
