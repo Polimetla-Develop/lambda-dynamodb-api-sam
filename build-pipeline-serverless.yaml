@@ -17,7 +17,7 @@ Parameters:
   RepositoryBranch:
     Type: String
     Description: The name of the branch.
-    Default: master
+    Default: custom-headers-test
   ServiceTag:
     Type: String
     Description: The tag for the resources.
