@@ -6,7 +6,8 @@
   "repository": "https://github.com/S-Polimetla/lambda-dynamodb-api-sam",
   "author": "S-Polimetla",
   "scripts": {
-    "test": "mocha test/tests.js",
+    "test": "mocha tests/unit/",
+    "integration": "mocha tests/integration",
     "lint": "./node_modules/.bin/eslint **/*.js"
   },
   "devDependencies": {
@@ -19,7 +20,8 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^8.0.1",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.2",
+    "hippie": "^0.6.1"
   },
   "dependencies": {
     "moment": "^2.27.0"
