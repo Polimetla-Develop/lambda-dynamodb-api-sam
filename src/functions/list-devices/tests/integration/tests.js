@@ -12,6 +12,7 @@ describe('Test GET Devices API', function () {
   it('list-devices success', (done) => {
     try {
       hippie()
+        .json()
         .get(url)
         .header('x-api-key', apiKey)
         .header('User-Agent', userAgent)
