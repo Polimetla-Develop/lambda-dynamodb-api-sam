@@ -1,7 +1,7 @@
 'use strict';
 
 const uuid = require('uuid');
-const app = require('../index.js');
+const app = require('../../index.js');
 const chai = require('chai');
 const sinon = require('sinon');
 const expect = chai.expect;
