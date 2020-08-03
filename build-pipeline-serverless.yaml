@@ -222,6 +222,11 @@ Resources:
                   - s3:* # Can be further refined
                 Resource:
                   - "*" # Can be further refined
+              - Effect: Allow
+                Action:
+                  - ssm:GetParameters
+                Resource:
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/api_key # To pull API key
 
   #
   # Service role according to https://docs.aws.amazon.com/lambda/latest/dg/build-pipeline.html
