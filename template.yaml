@@ -26,7 +26,11 @@ Parameters:
   WriteCapacity:
     Type: Number
     Default: 1
-    Description: The WriteCapacityUnits value  
+    Description: The WriteCapacityUnits value
+  ApiConfigStack:
+    Type: String
+    Description: The name of the API Config stack
+    Default: api-config
 
 Resources:
 
@@ -35,7 +39,9 @@ Resources:
     DependsOn: DeviceServiceApiStage
     Properties:
       BasePath: device
-      DomainName: !ImportValue ApiGateway-DomainName
+      DomainName:
+        Fn::ImportValue:
+          !Sub ${ApiConfigStack}-Api-DomainName
       RestApiId: !Ref DeviceServiceApi
       Stage: !Ref Stage
 
@@ -119,9 +125,9 @@ Resources:
 
 Outputs:
   ApiEndPoint:
-    Description: The end point to reach the API
-    Value: !Sub [ 'https://${DomainName}/device', DomainName: !ImportValue ApiGateway-DomainName ]
-    # Value: !Sub
-    #   - 'https://${DomainName}/device'
-    #   - DomainName: !ImportValue ApiGateway-DomainName
-    # Value: !Join [ '', [ https://, !ImportValue ApiGateway-DomainName, /device ] ]
+    Description: The end point to reach the API    
+    Value: !Sub
+      - 'https://${DomainName}/device'
+      - DomainName:
+          Fn::ImportValue:
+            !Sub ${ApiConfigStack}-Api-DomainName
