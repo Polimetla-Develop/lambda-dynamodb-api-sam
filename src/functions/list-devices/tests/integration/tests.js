@@ -6,18 +6,15 @@ const expect = chai.expect;
 const host = 'https://api-dev.polimetla.de';
 const url = host + '/device';
 const userAgent = 'IntegrationTest';
-let apiKey = 
+const apiKey = 'test1234';
 
-describe('Test GET Trips API', function () { 
-
-  it('get-trips success', (done) => {
+describe('Test GET Devices API', function () {
+  it('list-devices success', (done) => {
     try {
-      hippie(api)
+      hippie()
         .get(url)
         .header('x-api-key', apiKey)
-        .header('Authorization', jwtHeader)
         .header('User-Agent', userAgent)
-        .qs({tags: 'Top'})
         .expectStatus(200)
         .end(function (err, res, body) {
           if (err) throw err;
@@ -29,11 +26,10 @@ describe('Test GET Trips API', function () {
     }
   });
 
-  it('verifies response for no api key', (done) => {
+  xit('verifies response for no api key', (done) => {
     try {
-      hippie(api)
+      hippie()
         .get(url)
-        .header('Authorization', jwtHeader)
         .header('User-Agent', userAgent)
         .expectStatus(403)
         .end(function (err, res, body) {
@@ -45,9 +41,9 @@ describe('Test GET Trips API', function () {
     }
   });
 
-  it('verifies response for authorization error', (done) => {
+  xit('verifies response for authorization error', (done) => {
     try {
-      hippie(api)
+      hippie()
         .get(url)
         .header('x-api-key', apiKey)
         .header('User-Agent', userAgent)
@@ -61,12 +57,11 @@ describe('Test GET Trips API', function () {
     }
   });
 
-  it('verifies response for POST method not defined', (done) => {
+  xit('verifies response for POST method not defined', (done) => {
     try {
-      hippie(api)
+      hippie()
         .post(url)
         .header('x-api-key', apiKey)
-        .header('Authorization', jwtHeader)
         .header('User-Agent', userAgent)
         .end(function (err, res, body) {
           if (err) throw err;
@@ -78,12 +73,11 @@ describe('Test GET Trips API', function () {
     }
   });
 
-  it('verifies response for PUT method not defined', (done) => {
+  xit('verifies response for PUT method not defined', (done) => {
     try {
-      hippie(api)
+      hippie()
         .put(url)
         .header('x-api-key', apiKey)
-        .header('Authorization', jwtHeader)
         .header('User-Agent', userAgent)
         .end(function (err, res, body) {
           if (err) throw err;
@@ -95,12 +89,11 @@ describe('Test GET Trips API', function () {
     }
   });
 
-  it('verifies response for DELETE method not defined', (done) => {
+  xit('verifies response for DELETE method not defined', (done) => {
     try {
-      hippie(api)
+      hippie()
         .del(url)
         .header('x-api-key', apiKey)
-        .header('Authorization', jwtHeader)
         .header('User-Agent', userAgent)
         .end(function (err, res, body) {
           if (err) throw err;
@@ -112,12 +105,11 @@ describe('Test GET Trips API', function () {
     }
   });
 
-  it('verifies response for invalid path', (done) => {
+  xit('verifies response for invalid path', (done) => {
     try {
-      hippie(api)
+      hippie()
         .del(host + '/content/something')
         .header('x-api-key', apiKey)
-        .header('Authorization', jwtHeader)
         .header('User-Agent', userAgent)
         .end(function (err, res, body) {
           if (err) throw err;
