@@ -6,7 +6,7 @@ const expect = chai.expect;
 const host = 'https://api-dev.polimetla.de';
 const url = host + '/device';
 const userAgent = 'IntegrationTest';
-const apiKey = 'test1234';
+const apiKey = 'BKAPpd71Jc5NDPfmdWkZD5kOJOI1swAa44Uue8z1';
 
 describe('Test GET Devices API', function () {
   it('list-devices success', (done) => {
