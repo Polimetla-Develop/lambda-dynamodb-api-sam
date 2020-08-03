@@ -164,6 +164,7 @@ Resources:
                   - codebuild:StartBuild
                 Resource:
                   - !GetAtt CodeBuildProject.Arn
+                  - !GetAtt CodeBuildIntegrationTests.Arn
               - Effect: Allow
                 Action:
                   - cloudformation:DescribeStacks
@@ -214,6 +215,8 @@ Resources:
                 Resource:
                   - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-build
                   - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-build:*
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-integration-tests
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-integration-tests:*
               - Effect: Allow
                 Action:
                   - s3:* # Can be further refined
