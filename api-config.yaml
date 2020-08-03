@@ -96,4 +96,4 @@ Outputs:
     Description: The Domain name
     Value: !Ref ApiDomainName
     Export:
-      Name: ApiGateway-DomainName
+      Name: !Sub ${AWS::StackName}-Api-DomainName
