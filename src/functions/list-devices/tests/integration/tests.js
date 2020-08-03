@@ -20,7 +20,6 @@ describe('Test GET Devices API', function () {
         .end(function (err, res, body) {
           if (err) throw err;
           expect(body).to.be.an('array');
-          console.log(body);
           done();
         });
     } catch (err) {
