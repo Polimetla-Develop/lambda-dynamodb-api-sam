@@ -6,7 +6,8 @@
   "repository": "https://github.com/S-Polimetla/lambda-dynamodb-api-sam",
   "author": "S-Polimetla",
   "scripts": {
-    "test": "mocha test/tests.js",
+    "test": "mocha tests/unit/",
+    "integration": "mocha tests/integration",
     "lint": "./node_modules/.bin/eslint **/*.js"
   },
   "devDependencies": {
