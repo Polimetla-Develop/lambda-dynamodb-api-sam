@@ -8,11 +8,6 @@ Parameters:
     Description: The Domain name of the API
     Default: polimetla.de # Do not include a trailing period here
 
-  CertificateId:
-    Type: String
-    Description: The ID of the SSL Certificate
-    Default: bc5d0691-d3b6-4796-9c24-afa6724d3bd3 # Same for all environments. *.DomainName
-
   UsagePlanName:
     Type: String
     Description: Name of the Usage Plan
@@ -79,7 +74,7 @@ Resources:
         Types:
           - REGIONAL
       SecurityPolicy: TLS_1_2   
-      RegionalCertificateArn: !Sub arn:aws:acm:${AWS::Region}:${AWS::AccountId}:certificate/${CertificateId}
+      RegionalCertificateArn: !Ref SSLCertificate
 
   ApiRecordSet:
     Type: AWS::Route53::RecordSet
@@ -90,6 +85,12 @@ Resources:
         - !GetAtt ApiDomainName.RegionalDomainName
       TTL: 60
       Type: CNAME
+
+  SSLCertificate:  
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: String
+      ValidationMethod: DNS
 
 Outputs:
   DomainName:
