@@ -119,7 +119,7 @@ Resources:
   ArtifactsBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub io.polimetla.codepipeline.${ProjectName}
+      BucketName: !Sub io.polimetla.codepipelinee.${ProjectName}
       LifecycleConfiguration:
         Rules:
           - Id: DeleteBuildArtifactsAfterOneWeek
