@@ -30,15 +30,6 @@ Parameters:
 
 Resources:
 
-  BasePathMapping:
-    Type: AWS::ApiGateway::BasePathMapping
-    DependsOn: DeviceServiceApiStage
-    Properties:
-      BasePath: device
-      DomainName: !ImportValue ApiGateway-DomainName
-      RestApiId: !Ref DeviceServiceApi
-      Stage: !Ref Stage
-
   DeviceServiceApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -81,12 +72,3 @@ Resources:
         WriteCapacityUnits: !Ref WriteCapacity
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
-
-Outputs:
-  ApiEndPoint:
-    Description: The end point to reach the API
-    Value: !Sub [ 'https://${DomainName}/device', DomainName: !ImportValue ApiGateway-DomainName ]
-    # Value: !Sub
-    #   - 'https://${DomainName}/device'
-    #   - DomainName: !ImportValue ApiGateway-DomainName
-    # Value: !Join [ '', [ https://, !ImportValue ApiGateway-DomainName, /device ] ]
