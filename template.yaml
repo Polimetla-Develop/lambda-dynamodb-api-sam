@@ -49,24 +49,6 @@ Resources:
             Parameters:
               Location: !Sub ${S3BucketName}/swagger.yaml 
               
-  GetDeviceListFunction:
-    Type: AWS::Serverless::Function    
-    Properties:
-      CodeUri: src/functions/list-devices/
-      Handler: index.handler
-      Timeout: 10 # Scan may need longer processing time
-      FunctionName: !Sub ${Service}-list-devices
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: !Ref DeviceServiceTable      
-     
-  GetDeviceListFunctionPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref GetDeviceListFunction
-      Principal: apigateway.amazonaws.com
-
   GetDeviceFunction:
     Type: AWS::Serverless::Function    
     Properties:
@@ -82,23 +64,6 @@ Resources:
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref GetDeviceFunction
-      Principal: apigateway.amazonaws.com
-
-  PostOrPutDeviceFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: src/functions/post-or-put-device
-      Handler: index.handler
-      FunctionName: !Sub ${Service}-create-or-update-device
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref DeviceServiceTable
-
-  PostOrPutDeviceFunctionPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref PostOrPutDeviceFunction
       Principal: apigateway.amazonaws.com
 
   DeviceServiceTable:
