@@ -11,14 +11,6 @@ for d in */; do
 
         # build, run linter and unit tests
         npm install
-        npm run lint
-        if [[ $? -ne 0 ]]; then
-            errorCode=1
-        fi
-        npm test
-        if [[ $? -ne 0 ]]; then
-            errorCode=1
-        fi
 
         # Remove devDependencies
         npm prune --production
